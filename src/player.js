@@ -1,6 +1,6 @@
 const {AudioPlayerStatus, createAudioPlayer, createAudioResource} = require('@discordjs/voice');
 const {default: axios} = require('axios');
-const ytdl = require('ytdl-core');
+const ytdl = require('ytdl-core-discord');
 
 function fetchMetaData(url) {
   return axios.get(`https://www.youtube.com/oembed?url=${url}&format=json`);
