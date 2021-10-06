@@ -28,7 +28,7 @@ module.exports = class Player {
     this.queue.push(song);
 
     if (this.audio.state.status === 'idle') {
-      this.playNextSong();
+      await this.playNextSong();
     }
 
     return song;
