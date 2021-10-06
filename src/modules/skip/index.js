@@ -16,9 +16,9 @@ module.exports = {
       return;
     }
 
+    const next = player.queue[0];
     player.playNextSong();
-    const {currentlyPlaying} = player;
 
-    interaction.reply(`Skipped to **${currentlyPlaying.title}**!`);
+    interaction.reply(`Skipped to **${next.title}**!`);
   },
 };
