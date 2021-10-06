@@ -23,12 +23,12 @@ module.exports = {
 
     // eslint-disable-next-line no-restricted-syntax
     for (const [index, song] of Object.entries(player.queue)) {
-      text = `${text}\n[${index}] - ${song.title}`;
+      text += `\n**${index}** - **[${song.title}](${song.url})**`;
     }
 
     const embed = new MessageEmbed()
       .setTitle(`🎵 [Currently Playing]\n**${currentlyPlaying.title}**`)
-      .setDescription(`\`\`\`${text}\`\`\``)
+      .setDescription(`${text}`)
       .setThumbnail(currentlyPlaying.thumbnail_url);
 
     interaction.reply({embeds: [embed]});

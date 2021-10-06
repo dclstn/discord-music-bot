@@ -8,10 +8,8 @@ class Players {
 
   create(guildId, connection) {
     const player = new Player(connection);
-
     this.players.set(guildId, player);
-
-    connection.on(VoiceConnectionStatus.Disconnected, () => this.delete(guildId));
+    connection.once(VoiceConnectionStatus.Disconnected, () => this.delete(guildId));
 
     return player;
   }
