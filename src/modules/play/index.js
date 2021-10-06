@@ -1,6 +1,11 @@
+require('dotenv').config();
+
 const {joinVoiceChannel} = require('@discordjs/voice');
+const search = require('youtube-search');
 const players = require('../../players');
 const {findOption} = require('../../utils');
+
+const {YOUTUBE_KEY} = process.env;
 
 module.exports = {
   name: 'play',
@@ -34,10 +39,27 @@ module.exports = {
       player = players.create(interaction.guildId, connection);
     }
 
+    let song;
+
     try {
-      const song = await player.addSong(url.value);
-      interaction.reply(`Added **${song.title}** to the queue.`);
+      if (
+        /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(\S+)?$/g.test(
+          url.value
+        )
+      ) {
+        song = await player.addSong(url.value);
+      } else {
+        const {results} = await search(url.value, {
+          key: YOUTUBE_KEY,
+          maxResults: 1,
+        });
+
+        song = await player.addSong(results[0]);
+      }
+
+      interaction.reply(`Added **${song?.title}** to the queue.`);
     } catch (err) {
+      console.log(err);
       interaction.reply('Error: invalid youtube URL.');
     }
   },
