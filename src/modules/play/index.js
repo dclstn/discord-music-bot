@@ -54,11 +54,12 @@ module.exports = {
           maxResults: 1,
         });
 
-        song = await player.addSong(results[0]);
+        song = await player.addSong(results[0].link);
       }
 
       interaction.reply(`Added **${song?.title}** to the queue.`);
     } catch (err) {
+      console.log(err);
       interaction.reply('Error: invalid youtube URL.');
     }
   },
