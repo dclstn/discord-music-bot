@@ -12,7 +12,7 @@ module.exports = {
     }
 
     if (player.queue.length === 0) {
-      interaction.reply('There is no more songs in the queue.');
+      interaction.reply('There is no more songs in the queue. (type `/disconnect` to stop the bot)');
       return;
     }
 

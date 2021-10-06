@@ -17,7 +17,7 @@ module.exports = {
     const url = findOption(interaction.options?._hoistedOptions, 'url');
     const {voice} = interaction.member;
 
-    if (!voice) {
+    if (voice.channelId == null) {
       interaction.reply('You must be in a voice channel.');
       return;
     }
