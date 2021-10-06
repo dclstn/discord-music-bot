@@ -19,7 +19,7 @@ module.exports = {
     },
   ],
   execute: async (interaction) => {
-    const search = findOption(interaction.options?._hoistedOptions, 'search');
+    const option = findOption(interaction.options?._hoistedOptions, 'search');
     const {voice} = interaction.member;
 
     if (voice.channelId == null) {
@@ -44,12 +44,12 @@ module.exports = {
     try {
       if (
         /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(\S+)?$/g.test(
-          search.value
+          option.value
         )
       ) {
-        song = await player.addSong(search.value);
+        song = await player.addSong(option.value);
       } else {
-        const {results} = await search(search.value, {
+        const {results} = await search(option.value, {
           key: YOUTUBE_KEY,
           maxResults: 1,
         });
