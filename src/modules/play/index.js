@@ -12,14 +12,14 @@ module.exports = {
   description: 'adds a song to queue',
   options: [
     {
-      name: 'url',
-      description: 'Enter a Youtube video URL',
+      name: 'search',
+      description: 'Enter a Youtube video URL/Search',
       type: 3,
       required: true,
     },
   ],
   execute: async (interaction) => {
-    const url = findOption(interaction.options?._hoistedOptions, 'url');
+    const search = findOption(interaction.options?._hoistedOptions, 'search');
     const {voice} = interaction.member;
 
     if (voice.channelId == null) {
@@ -44,12 +44,12 @@ module.exports = {
     try {
       if (
         /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(\S+)?$/g.test(
-          url.value
+          search.value
         )
       ) {
-        song = await player.addSong(url.value);
+        song = await player.addSong(search.value);
       } else {
-        const {results} = await search(url.value, {
+        const {results} = await search(search.value, {
           key: YOUTUBE_KEY,
           maxResults: 1,
         });
@@ -59,7 +59,6 @@ module.exports = {
 
       interaction.reply(`Added **${song?.title}** to the queue.`);
     } catch (err) {
-      console.log(err);
       interaction.reply('Error: invalid youtube URL.');
     }
   },
