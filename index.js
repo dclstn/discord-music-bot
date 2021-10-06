@@ -1,1 +1,2 @@
-require('./src/interactions')
+require('./src/interactions');
+require('./src/repl');

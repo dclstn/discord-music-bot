@@ -38,6 +38,17 @@ class CommandHandler {
     }
   }
 
+  async updateGlobalCommands() {
+    try {
+      await rest.put(Routes.applicationCommands(CLIENT_ID), {
+        body: this.getCommands(),
+      });
+    } catch (err) {
+      console.error(`Failed to update guild commands: ${err}`);
+      process.exit(1);
+    }
+  }
+
   getCommands() {
     return [...this.interactions.values()].map(({name, description, options}) => ({name, description, options}));
   }
