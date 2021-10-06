@@ -1,10 +1,11 @@
+const {MessageEmbed} = require('discord.js');
 const players = require('../../players');
 
 module.exports = {
   name: 'queue',
   description: 'shows current song queue',
   execute: (interaction) => {
-    const player = players.getPlayer(interaction.guild.id);
+    const player = players.get(interaction.guild.id);
 
     if (player == null) {
       interaction.reply('The bot is not connected to any voice channels.');
@@ -18,13 +19,18 @@ module.exports = {
       return;
     }
 
-    let text = `[Currently Playing] - ${currentlyPlaying.title}`;
+    let text = `Up Next:\n`;
 
     // eslint-disable-next-line no-restricted-syntax
     for (const [index, song] of Object.entries(player.queue)) {
       text = `${text}\n[${index}] - ${song.title}`;
     }
 
-    interaction.reply(text);
+    const embed = new MessageEmbed()
+      .setTitle(`🎵 [Currently Playing]\n**${currentlyPlaying.title}**`)
+      .setDescription(`\`\`\`${text}\`\`\``)
+      .setThumbnail(currentlyPlaying.thumbnail_url);
+
+    interaction.reply({embeds: [embed]});
   },
 };

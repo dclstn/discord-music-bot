@@ -4,7 +4,7 @@ module.exports = {
   name: 'skip',
   description: 'skip to next song in queue',
   execute: async (interaction) => {
-    const player = players.getPlayer(interaction.guild.id);
+    const player = players.get(interaction.guild.id);
 
     if (player == null) {
       interaction.reply('The bot is not connected to any voice channels.');
@@ -19,6 +19,6 @@ module.exports = {
     player.playNextSong();
     const {currentlyPlaying} = player;
 
-    interaction.reply(`Skipped to **${currentlyPlaying}**!`);
+    interaction.reply(`Skipped to **${currentlyPlaying.title}**!`);
   },
 };

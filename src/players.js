@@ -6,24 +6,24 @@ class Players {
     this.players = new Map();
   }
 
-  createPlayer(guildId, connection) {
+  create(guildId, connection) {
     const player = new Player(connection);
 
     this.players.set(guildId, player);
 
-    connection.on(VoiceConnectionStatus.Disconnected, () => {
-      this.deletePlayer(guildId);
-      connection.destroy();
-    });
+    connection.on(VoiceConnectionStatus.Disconnected, () => this.delete(guildId));
 
     return player;
   }
 
-  getPlayer(guildId) {
+  get(guildId) {
     return this.players.get(guildId);
   }
 
-  deletePlayer(guildId) {
+  delete(guildId) {
+    const player = this.players.get(guildId);
+
+    player.connection.destroy();
     this.players.delete(guildId);
   }
 }

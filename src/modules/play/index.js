@@ -1,9 +1,6 @@
 const {joinVoiceChannel} = require('@discordjs/voice');
 const players = require('../../players');
-
-function findOption(options, query) {
-  return options.find((option) => option.name === query);
-}
+const {findOption} = require('../../utils');
 
 module.exports = {
   name: 'play',
@@ -25,7 +22,7 @@ module.exports = {
       return;
     }
 
-    let player = players.getPlayer(interaction.guild.id);
+    let player = players.get(interaction.guild.id);
 
     if (player == null) {
       const connection = joinVoiceChannel({
@@ -34,7 +31,7 @@ module.exports = {
         adapterCreator: interaction.guild.voiceAdapterCreator,
       });
 
-      player = players.createPlayer(interaction.guildId, connection);
+      player = players.create(interaction.guildId, connection);
     }
 
     try {
